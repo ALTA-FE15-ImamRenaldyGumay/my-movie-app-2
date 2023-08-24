@@ -1,34 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+
+import DetailMovie from '../components/DetailMovie';
 
 const MovieDetail = () => {
 
-    const { id } = useParams();
-    const [movieDetail, setMovieDetail] = useState(null);
-
+    const location = useLocation();
+    const id = location?.state?.id;
+    const [movieDetail, setMovieDetail] = useState({ id });
     const API_TOKKENS = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMWE0MGEzMDU0MTVlNTM1NDk0YTBkMzQ5YmQ1YTA3YiIsInN1YiI6IjY0ZTE4YjExNGE1MmY4MDBlNDM5NjEwYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.5W-LKRloCKqPHww0cQL3wl5cA5aPtQtgGocAN2Pjg9I'
-    useEffect(() => {
-        // Lakukan permintaan GET ke API untuk mendapatkan detail produk berdasarkan productId
-        axios.get(`https://api.themoviedb.org/3/movie/${id}`)
-            .then(response => {
-                setMovieDetail(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, [id]);
 
-    if (!movieDetail) {
-        return <div>Loading...</div>;
+    const getSingleMovie = (id: any) => {
+        axios.get(`3/movie/${id}`, {
+            headers: {
+                Authorization: `Bearer ${API_TOKKENS}`
+            }
+        })
+            .then((response) => {
+                setMovieDetail(response?.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
+    useEffect(() => {
+        getSingleMovie(id)
+    }, [])
+
     return (
-        <div className="movie-detail">
-            <h1>{movieDetail.original_title}</h1>
-            <p>Price: ${movieDetail.price}</p>
-            <p>{movieDetail.description}</p>
-        </div>
+        <section>
+            <div>
+                <CardMovie 
+                    title={movieDetail?.original_title}
+                    image={`https://image.tmdb.org/t/p/w500${movieDetail?.backdrop_path}`}
+                    overview={movieDetail?.overview} />
+            </div>
+        </section>
     )
 }
 
