@@ -13,13 +13,19 @@ interface cardMovieProps {
 const CardMovie: FC<cardMovieProps> = ({ id, title, image, overview, onclick }) => {
 
     return (
-        <div id={id} className='w-80 h-full bg-alto-600 rounded-md shadow-md'>
-            <img
-                className='h-full w-full  rounded-md mb-3'
-                src={image} alt="movie-poster" />
-            <h2 className='text-black text-2xl text-center'>{title}</h2>
-            <p className='p-3'>{overview}</p>
-            <ButtonMovie id="detail" label="Details" onClick={onclick} />
+        <div id={id} className="p-4 m-8 w-80 bg-yellow-200 shadow-md rounded-xl">
+            <picture className="rounded-lg block">
+                <img src={image} />
+            </picture>
+
+            <h1 className="mt-4 mb-2 text-xl font-bold">{title}</h1>
+            <p className="text-sm text-black mb-3">
+                {overview}
+            </p>
+            <div className="">
+                <ButtonMovie id="detail" label="Details" onClick={onclick} />
+            </div>
+
         </div>
     )
 }
