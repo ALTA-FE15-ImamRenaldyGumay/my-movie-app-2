@@ -1,35 +1,32 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-export interface Movie {
-    id: number;
-    title: string;
-    image: string;
-    overview: string;
-    onClick: React.MouseEventHandler;
-
+interface Movie {
+  id: string;
+  title: string;
+  image: string;
 }
 
-export const addFavorites = (movie: any) => {
-    return {
-        type: "ADD_FAVORITES",
-        payload: movie
-    }
+interface FavoritesState {
+  favorites: Movie[]
 }
 
-const initialState = {
-    favorites: []
+const initialState: FavoritesState = {
+  favorites : []
 }
 
-const rootReducer = (state = initialState, action: any) => {
-    switch (action.type) {
-      case "ADD_FAVORITE":
-        return {
-          ...state,
-          favorites: [...state.favorites, action.payload],
-        };
-      default:
-        return state;
-    }
-  };
-  
-  export default rootReducer;
+const FavoritesSlice = createSlice({
+  name: 'favorites',
+  initialState,
+  reducers: {
+    addFavorites : (state, action: PayloadAction<Movie>) => {
+      state.favorites.push(action.payload);
+    },
+    removeFavorites: (state, action: PayloadAction<string>) => {
+      state.favorites = state.favorites.filter(movie => movie.id !== action.payload);
+    },
+  },
+})
+
+export const { addFavorites, removeFavorites } = FavoritesSlice.actions;
+
+export default FavoritesSlice.reducer;

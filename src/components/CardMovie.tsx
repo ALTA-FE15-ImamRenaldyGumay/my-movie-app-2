@@ -1,4 +1,6 @@
 import React, { FC, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { addFavorites, removeFavorites } from '../features/AddFavorites';
 
 import ButtonMovie from './ButtonMovie'
 
@@ -8,21 +10,19 @@ interface cardMovieProps {
     image?: string
     // overview?: string
     onclick?: React.MouseEventHandler
-    onAddFavorites: (id: string, title: string, image: string) => void
-    onRemoveFavorites: (id: string) => void
+    // onAddFavorites: (id: string, title: string, image: string) => void
+    // onRemoveFavorites: (id: string) => void
     isFavorites?: boolean
 }
 
-const CardMovie: FC<cardMovieProps> = ({ id, title, image, onclick, onAddFavorites, onRemoveFavorites, isFavorites }) => {
-
-    const [isInFavorites, setIsInFavorites] = useState(isFavorites || false)
+const CardMovie: FC<cardMovieProps> = ({ id, title, image, onclick, isFavorites }) => {
+    const dispatch = useDispatch()
 
     const handleFavoritesClick = () => {
-        setIsInFavorites(!isFavorites);
-        if (isInFavorites && onRemoveFavorites) {
-            onRemoveFavorites(id)
-        }else if (onAddFavorites){
-            onAddFavorites(id, title || '', image || '')
+        if (isFavorites) {
+            dispatch(removeFavorites(id))
+        }else{
+            dispatch(addFavorites({ id, title: title || '', image: image || ''}))
         }
     }
 
