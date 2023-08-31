@@ -16,7 +16,7 @@ const Navbar: FC<navbarProps> = ({ onClick }) => {
                     <li><a href="/" className="text-gray-900 hover:bg-alto-200 ">Home</a></li>
                     <li><a href="/Movie" className="text-gray-900">Favorites</a></li>
                     <li><a href="/Detail" className="text-gray-900">Detail</a></li>
-                    <li><a href="#" className="text-gray-900">Contact</a></li>
+                    <li><a href="/" className="text-gray-900">Contact</a></li>
                 </ul>
                 <div className='flex justify-end items-center' onClick={onClick}>
                     <button className="text-gray-900">DarkMode</button>
